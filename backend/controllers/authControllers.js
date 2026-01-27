@@ -29,7 +29,7 @@ export let registerUserController = async (req,res) =>{
         }
         let hashedPassword = await bcrypt.hash(password, 12);
         let user = await userModel.create({ fullName, username, email, role, password: hashedPassword });
-        return res.status(201).json({ success: true, message: "User registered successfully", user: user });
+        return res.status(201).json({ success: true, message: "User registered successfully" });
     }
     catch(error)
     {
@@ -62,12 +62,12 @@ export let loginUserController = async (req,res) =>{
         {
             return res.status(400).json({ success: false, message: "Incorrect password" });
         }
-        let accessToken = await jwt.sign({_id: isUserExist._id, username: isUserExist.username, role: isUserExist.role},
+        let accessToken = jwt.sign({_id: isUserExist._id, username: isUserExist.username, role: isUserExist.role},
             process.env.ACCESS_TOKEN_SECRET,{
             expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         });
 
-        let refreshToken = await jwt.sign({_id: isUserExist._id, username: isUserExist.username},
+        let refreshToken = jwt.sign({_id: isUserExist._id, username: isUserExist.username},
             process.env.REFRESH_TOKEN_SECRET,{
             expiresIn: process.env.REFRESH_TOKEN_EXPIRY
         });
