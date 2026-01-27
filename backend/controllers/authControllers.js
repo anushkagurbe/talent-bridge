@@ -3,6 +3,10 @@ import { userLoginSchema, userRegisterSchema } from "../validators/authValidator
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+let cookieOptions = {
+            httpOnly: true
+        }
+
 export let registerUserController = async (req,res) =>{
     try
     {
@@ -58,17 +62,38 @@ export let loginUserController = async (req,res) =>{
         {
             return res.status(400).json({ success: false, message: "Incorrect password" });
         }
-        let jwtToken = await jwt.sign({_id: isUserExist._id, username: isUserExist.username, role: isUserExist.role},
+        let accessToken = await jwt.sign({_id: isUserExist._id, username: isUserExist.username, role: isUserExist.role},
             process.env.ACCESS_TOKEN_SECRET,{
             expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         });
-        return res.status(200).json({ success: true, message: "Login successfully",token: jwtToken, user: {
+
+        let refreshToken = await jwt.sign({_id: isUserExist._id, username: isUserExist.username},
+            process.env.REFRESH_TOKEN_SECRET,{
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+        });
+
+        await userModel.updateOne({ _id: isUserExist._id }, { $set: { refreshToken: refreshToken } });
+
+        return res.status(200).cookie("accessToken", accessToken, cookieOptions).cookie("refreshToken", refreshToken, cookieOptions).json({ success: true, message: "Login successfully", user: {
             _id: isUserExist._id,
             username: isUserExist.username,
             email: isUserExist.email,
             role: isUserExist.role
         } })
 
+    }
+    catch(error)
+    {
+        console.log("Internal server error "+ error);
+        return res.status(500).json({ success: false, message: "Internal server error" })
+    }
+}
+
+export let logoutUserController = async (req,res) =>{
+    try
+    {
+        await userModel.updateOne({ _id: req.user._id }, { $set: { refreshToken: "" } })
+        return res.status(200).clearCookie("accessToken").json({ success: true, message: "Logged out successfully" })
     }
     catch(error)
     {
