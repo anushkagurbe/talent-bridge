@@ -4,7 +4,7 @@ export let isAdminMiddleware = async (req,res,next) => {
         let role = req.user.role;
         if(role == "ADMIN")
         {
-            next();
+            return next();
         }
         return res.status(403).json({ success: false, message: "Admin access required" });
     }
@@ -20,9 +20,10 @@ export let isRecruiterMiddleware = async (req,res,next) => {
     try
     {
         let role = req.user.role;
+        console.log(role)
         if(role == "RECRUITER")
         {
-            next();
+            return next();
         }
         return res.status(403).json({ success: false, message: "Access forbidden" });
     }
@@ -39,7 +40,7 @@ export let isJobSeekerMiddleware = async (req,res,next) => {
         let role = req.user.role;
         if(role == "JOB_SEEKER")
         {
-            next();
+            return next();
         }
         return res.status(403).json({ success: false, message: "Access forbidden" });
     }

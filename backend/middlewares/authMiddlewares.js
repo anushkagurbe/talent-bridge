@@ -20,7 +20,7 @@ export let verifyJwtMiddleware = async (req, res, next) =>{
             return res.status(403).json({ success: false, message: "User is blocked" })
         }
         req.user = user;
-        next();
+        return next();
     }
     catch(error)
     {

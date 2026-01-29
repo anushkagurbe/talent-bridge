@@ -34,30 +34,39 @@ let userSchema = mongoose.Schema({
     role: {
         type: String,
         enum: ["JOB_SEEKER", "RECRUITER", "ADMIN"],
-        default: "JOB_SEEKER"
+        default: "JOB_SEEKER",
+        immutable: true
     },
     skills: [
         String
     ],
     experience: {
         type: Number,
-        default: 0
+        default: 0,
+        min: 0
     },
     resume: String,
     profileImage: {
         type: String,
         default: ""
     },
+    companyName: {
+        type: String,
+        default: ""
+    },
     location: {
         city: { 
-            type: String 
+            type: String,
+            default: "" 
         },
         state: {
-             type: String 
+             type: String,
+             default: "" 
 
         },
         country: {
-             type: String 
+             type: String,
+             default: "" 
 
         }
     },

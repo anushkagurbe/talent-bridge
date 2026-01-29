@@ -93,7 +93,7 @@ export let logoutUserController = async (req,res) =>{
     try
     {
         await userModel.updateOne({ _id: req.user._id }, { $set: { refreshToken: "" } })
-        return res.status(200).clearCookie("accessToken").json({ success: true, message: "Logged out successfully" })
+        return res.status(200).clearCookie("accessToken").clearCookie("refreshToken").json({ success: true, message: "Logged out successfully" })
     }
     catch(error)
     {

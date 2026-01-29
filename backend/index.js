@@ -1,14 +1,20 @@
 import "dotenv/config";
 import express from "express";
 import authRoutes from "./routes/authRoutes.js"
+import profileRoutes from "./routes/profileRoutes.js";
+import jobRoutes from "./routes/jobRoutes.js";
 import { dbConnect } from "./config/dbConnect.js";
+import cookieParser from "cookie-parser";
 
 let app = express();
 await dbConnect();
+app.use(cookieParser());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/profile", profileRoutes);
+app.use("/api/v1/job", jobRoutes)
 
 
 app.listen(process.env.PORT, ()=>{
