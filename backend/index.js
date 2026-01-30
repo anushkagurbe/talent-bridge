@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import cors from "cors";
 import authRoutes from "./routes/authRoutes.js"
 import profileRoutes from "./routes/profileRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
@@ -8,6 +9,7 @@ import cookieParser from "cookie-parser";
 
 let app = express();
 await dbConnect();
+app.use(cors());
 app.use(cookieParser());
 
 app.use(express.json());
