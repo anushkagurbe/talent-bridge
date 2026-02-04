@@ -39,7 +39,6 @@ export let registerUserController = async (req,res) =>{
     }
 }
 
-
 export let loginUserController = async (req,res) =>{
     try
     {
@@ -102,7 +101,6 @@ export let logoutUserController = async (req,res) =>{
         return res.status(500).json({ success: false, message: "Internal server error" })
     }
 }
-
 
 export let resetPasswordController = async (req,res) =>{
     try
