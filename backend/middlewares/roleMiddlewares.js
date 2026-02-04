@@ -6,7 +6,7 @@ export let isAdminMiddleware = async (req,res,next) => {
         {
             return next();
         }
-        return res.status(403).json({ success: false, message: "Admin access required" });
+        return res.status(403).json({ success: false, message: "Unauthorized user" });
     }
     catch(error)
     {
@@ -25,7 +25,7 @@ export let isRecruiterMiddleware = async (req,res,next) => {
         {
             return next();
         }
-        return res.status(403).json({ success: false, message: "Access forbidden" });
+        return res.status(403).json({ success: false, message: "Unauthorized user" });
     }
     catch(error)
     {
@@ -42,7 +42,7 @@ export let isJobSeekerMiddleware = async (req,res,next) => {
         {
             return next();
         }
-        return res.status(403).json({ success: false, message: "Access forbidden" });
+        return res.status(403).json({ success: false, message: "Unauthorized user" });
     }
     catch(error)
     {

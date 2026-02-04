@@ -4,6 +4,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes.js"
 import profileRoutes from "./routes/profileRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
+import applicationRoutes from "./routes/applicationRoutes.js";
 import { dbConnect } from "./config/dbConnect.js";
 import cookieParser from "cookie-parser";
 
@@ -16,7 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/profile", profileRoutes);
-app.use("/api/v1/job", jobRoutes)
+app.use("/api/v1/job", jobRoutes);
+app.use("/api/v1/application", applicationRoutes);
 
 
 app.listen(process.env.PORT, ()=>{
